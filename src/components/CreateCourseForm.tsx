@@ -95,7 +95,7 @@ export const CreateCourseForm = () => {
           </AnimatePresence>
           <div className='flex items-center justify-center mt-4'>
             <Separator className='flex-[1]' />
-            <div className='mx-4'>
+            <div className='flex gap-2 mx-4'>
               <Button
                 type='button'
                 variant='secondary'
@@ -121,6 +121,13 @@ export const CreateCourseForm = () => {
             </div>
             <Separator className='flex-[1]' />
           </div>
+          <Button
+            type='submit'
+            className='w-full mt-6'
+            size='lg'
+          >
+            Lets Go!
+          </Button>
         </form>
       </Form>
     </div>

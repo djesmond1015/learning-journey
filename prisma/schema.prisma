@@ -51,3 +51,61 @@ model User {
   accounts Account[]
   sessions Session[]
 }
+
+// course contains many units
+model Course {
+  id        String   @id @default(cuid())
+  name      String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  units Unit[]
+}
+
+// unit contains many chapters
+model Unit {
+  id       String @id @default(cuid())
+  courseId String
+
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  course   Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  chapters Chapter[]
+
+  @@index([courseId], name: "courseId")
+}
+
+model Chapter {
+  id     String @id @default(cuid())
+  unitId String
+
+  name               String
+  youtubeSearchQuery String
+  videoId            String?
+  summary            String?  @db.VarChar(3000)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  unit      Unit       @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  questions Question[]
+
+  @@index([unitId], name: "unitId")
+}
+
+model Question {
+  id        String @id @default(cuid())
+  chapterId String
+
+  question  String   @db.VarChar(3000)
+  answer    String   @db.VarChar(3000)
+  options   String   @db.VarChar(3000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([chapterId], name: "chapterId")
+}
