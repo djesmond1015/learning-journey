@@ -9,9 +9,9 @@ type UserAvatarProps = {
 
 export const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
   return (
-    <Avatar className='w-8 h-8'>
+    <Avatar className='w-8 h-8 '>
       {user.image ? (
-        <div className='relative aspect-square '>
+        <div className='relative aspect-square'>
           <Image
             fill
             src={user.image}
