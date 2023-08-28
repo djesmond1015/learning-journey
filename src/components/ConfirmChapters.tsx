@@ -1,5 +1,11 @@
+'use client';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { Chapter, Course, Unit } from '@prisma/client';
 import { ChapterCard } from '@/components/ChapterCard';
+import { Separator } from '@/components/ui/separator';
+import { Button, buttonVariants } from '@/components/ui/button';
 
 type ConfirmChaptersProps = {
   course: Course & {
@@ -36,6 +42,35 @@ export const ConfirmChapters: React.FC<ConfirmChaptersProps> = ({ course }) => {
           </div>
         );
       })}
+      <div className='flex items-center justify-center mt-4'>
+        <Separator className='flex-[1]' />
+        <div className='flex items-center mx-4'>
+          <Link
+            href='/create'
+            className={buttonVariants({
+              variant: 'secondary',
+            })}
+          >
+            <ChevronLeft
+              className='w-4 h-4 mr-2'
+              strokeWidth={4}
+            />
+            Back
+          </Link>
+          <Button
+            type='button'
+            className='ml-4 font-semibold'
+            onClick={() => {}}
+          >
+            Generate
+            <ChevronRight
+              className='w-4 h-4 ml-2'
+              strokeWidth={4}
+            />
+          </Button>
+        </div>
+        <Separator className='flex-[1]' />
+      </div>
     </div>
   );
 };
