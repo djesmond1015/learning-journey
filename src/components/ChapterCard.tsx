@@ -1,20 +1,39 @@
 'use client';
 
+import React from 'react';
 import { useState } from 'react';
 
 import { Chapter } from '@prisma/client';
 import { cn } from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 
 type ChapterCardProps = {
   chapter: Chapter;
   chapterIndex: number;
 };
 
-export const ChapterCard: React.FC<ChapterCardProps> = ({
-  chapter,
-  chapterIndex,
-}) => {
+export type ChapterCardHandler = {
+  triggerLoad: () => void;
+};
+
+export const ChapterCard = React.forwardRef<
+  ChapterCardHandler,
+  ChapterCardProps
+>(({ chapter, chapterIndex }, ref) => {
   const [success, setSuccess] = useState<boolean | null>(null);
+  const { mutate: getChapterInfo, isLoading } = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post('/api/chapter/getInfo');
+      return response.data;
+    },
+  });
+
+  React.useImperativeHandle(ref, () => ({
+    async triggerLoad() {
+      console.log('trigger load');
+    },
+  }));
 
   return (
     <div
@@ -28,4 +47,6 @@ export const ChapterCard: React.FC<ChapterCardProps> = ({
       <h5>{chapter.name}</h5>
     </div>
   );
-};
+});
+
+ChapterCard.displayName = 'ChapterCard';
