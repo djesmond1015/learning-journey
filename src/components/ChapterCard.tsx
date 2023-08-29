@@ -2,15 +2,18 @@
 
 import React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 
 import { Chapter } from '@prisma/client';
-import { cn } from '@/lib/utils';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/components/ui/use-toast';
 
 type ChapterCardProps = {
   chapter: Chapter;
   chapterIndex: number;
+  completedChapters: Set<String>;
+  setCompletedChapters: React.Dispatch<React.SetStateAction<Set<String>>>;
 };
 
 export type ChapterCardHandler = {
@@ -21,6 +24,7 @@ export const ChapterCard = React.forwardRef<
   ChapterCardHandler,
   ChapterCardProps
 >(({ chapter, chapterIndex }, ref) => {
+  const { toast } = useToast();
   const [success, setSuccess] = useState<boolean | null>(null);
   const { mutate: getChapterInfo, isLoading } = useMutation({
     mutationFn: async () => {
